@@ -1,21 +1,63 @@
 // [Template no Kotlin Playground](https://pl.kotl.in/WcteahpyN)
 
-enum class Nivel { BASICO, INTERMEDIARIO, DIFICIL }
+enum class Nivel { BASICO, INTERMEDIARIO, AVANCADO }
+enum class Matricular { ESTUDANTE, PROFESSOR }
 
-class Usuario
+data class Usuarios(val fNome: String, val lNome: String, val email: String, val matricular: Matricular)
 
-data class ConteudoEducacional(var nome: String, val duracao: Int = 60)
+data class ConteudoEducacional(val nome: String, val duracao: Int, val nivel: Nivel)
 
-data class Formacao(val nome: String, var conteudos: List<ConteudoEducacional>) {
+data class Formacao(val nome: String, val conteudo: List<ConteudoEducacional>, val nivel: Nivel) {
 
-    val inscritos = mutableListOf<Usuario>()
-    
-    fun matricular(usuario: Usuario) {
-        TODO("Utilize o parâmetro $usuario para simular uma matrícula (usar a lista de $inscritos).")
+    val registrado = mutableListOf<Usuarios>()
+   
+    fun addUsuario(usuario: Usuarios) {
+         registrado.add(usuario)
+    }
+   
+    fun getAddUsuario(){
+        for(usuario in registrado){
+            println("|Nome: ${usuario.fNome+" "+usuario.lNome}| - |Email: ${usuario.email}| - (${usuario.matricular})")
+        }
+    }
+   
+    fun printConteudoEducacional(){
+        for(cont in conteudo){
+            println("${cont.nome} - ${cont.duracao}min - (${cont.nivel})")
+        }
     }
 }
 
 fun main() {
-    TODO("Analise as classes modeladas para este domínio de aplicação e pense em formas de evoluí-las.")
-    TODO("Simule alguns cenários de teste. Para isso, crie alguns objetos usando as classes em questão.")
+ 	val cursoKotlinB = ConteudoEducacional("Linguagem Kotlin", 150, Nivel.BASICO)
+    val cursoAndroidStudioB = ConteudoEducacional("Fundamentos Android Studio", 150, Nivel.BASICO)
+  	val cursoKotlinI = ConteudoEducacional("Linguagem Kotlin", 180, Nivel.INTERMEDIARIO)
+  	val cursoAndroidStudioI = ConteudoEducacional("Fundamentos Multiscreen", 180, Nivel.INTERMEDIARIO)
+   
+	val Listadeconteudo = mutableListOf<ConteudoEducacional>()
+  		Listadeconteudo.add(cursoKotlinB)
+  		Listadeconteudo.add(cursoAndroidStudioB)
+    	Listadeconteudo.add(cursoKotlinI)
+        Listadeconteudo.add(cursoAndroidStudioI)
+   
+    val eliel = Usuarios("Eliel","Santos", "elielsantoszn@gmail.com", Matricular.ESTUDANTE)
+    val stefani = Usuarios("Stefani","Aparecida", "stefaniaparecida@gmail.com", Matricular.ESTUDANTE)
+    val emerson = Usuarios("Emerson","Nascimento", "nascimentoemerson20@gmail.com", Matricular.PROFESSOR)
+   
+    val Treinamentoandroid = Formacao("Formação Desenvolvedor Android", Listadeconteudo, Nivel.INTERMEDIARIO)
+     
+    Treinamentoandroid.addUsuario(eliel)
+    Treinamentoandroid.addUsuario(stefani)
+    Treinamentoandroid.addUsuario(emerson)
+   
+  	println(" -----------------------------------------")
+    println("|${Treinamentoandroid.nome} - ${Treinamentoandroid.nivel}|")
+    println(" -----------------------------------------")
+   
+    println("Grade do curso")
+    println(Treinamentoandroid.printConteudoEducacional())
+    println("-----------------------------------------")
+   
+    println("Usuarios cadastrados no curso")
+    println(Treinamentoandroid.getAddUsuario())
 }
